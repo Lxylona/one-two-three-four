@@ -14,4 +14,5 @@
 
 ####  笔记
 [2018/06/05: batchedUpdate, 组件生命周期](https://github.com/Lxylona/one-two-three-four/issues/1)
+
 [2018/06/06 ~ 2018/06/07: Diff算法，简化版React](https://github.com/Lxylona/one-two-three-four/issues/2)
