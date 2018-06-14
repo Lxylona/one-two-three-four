@@ -9,3 +9,5 @@
 `dataSource`: 数据源，接受一个数组，每一个元素的形式为`{value: value, title: title}`
 
 `listLength`: 一次渲染的列表长度，默认为50 
+
+### [demo](https://jsfiddle.net/cbxh0o9L/)
