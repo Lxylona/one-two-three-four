@@ -1,6 +1,7 @@
 import React from 'react';
 
-class Search extends React.Component { // 搜索框
+// 搜索框
+class Search extends React.Component { 
     render () {
         return (
                 <input 
@@ -14,13 +15,15 @@ class Search extends React.Component { // 搜索框
     }
 }
 
-function Option (props) { // 列表项
+// 列表项
+function Option (props) {
     return (
         <div className={props.className ? props.className : 'option'} index={props.index} title={props.title}>{props.title}</div>
     )
 }
 
-class OptionsBoard extends React.Component { // 不知道怎么称呼他，他是一个列表，上下有两个占位的div
+ // 放列表项的列表
+class OptionsBoard extends React.Component { 
     
     handleScroll (e) {
         this.props.onScroll(e);
@@ -136,7 +139,6 @@ export class Selector extends React.Component {
         if (this.state.isLoading) {
             return;
         }
-        console.log('loading')
         // 标识正在加载数据中
         this.setState({
             isLoading: true,
@@ -146,14 +148,13 @@ export class Selector extends React.Component {
     }
     // input处理函数，修改 searchKey 的值，并把滚动条移到最上面
     changeSearchKey (e) { 
-        console.log('changeSearchKey')
         const searchKey = e.target.value;
         const currentData = this.getRenderData(searchKey);
         this.setState({
             searchKey: searchKey,
             currentData: currentData,
         })
-        // 滚动条置0, 这里。。。。。。。。。。。。救命，感觉不应该这样做的*********************************************
+        // 滚动条置0
         if (this.props.mode === 'PC') {
             this.board.current && (this.board.current.scrollTop = 0);
         } else {
@@ -174,15 +175,9 @@ export class Selector extends React.Component {
         const currentScrollTop = target.scrollTop;
         const maxScrollTop = target.scrollHeight - target.clientHeight;
 
-        // 滑到底部，小于40px
+        // 滑到底部，小于40px，请求新数据
         if (maxScrollTop - currentScrollTop < 40) { 
-            // this.setState({
-            //     toIndex: this.state.toIndex + this.props.listLength,
-            //     currentData: this.getRenderData(this.state.fromIndex, this.state.toIndex + this.props.listLength, this.state.searchKey),
-            // });
             this.lazyLoadData();
-            console.log('haha')
-            this.props.onScrollBottom && this.props.onScrollBottom(this.state.toIndex, this.state.toIndex + this.props.listLength);
         }
 
         if (this.props.mode === 'mobile') {
@@ -215,7 +210,6 @@ export class Selector extends React.Component {
         }
         const o = currentData[currentIndex];
 
-        // 边滚动边输入会出现 o 为 undefined 的错误，是什么原因呢……**************************************
         if (o) {
             return o;
         }
@@ -241,8 +235,8 @@ export class Selector extends React.Component {
             lastSelectedItem: current,
         })
         const index = (this.board.current.parentNode.scrollTop - this.state.offset) / 40;
-        // console.log(index)
         this.storeData(index, this.state.searchKey, this.state.currentData);
+
         this.props.onConfirm && this.props.onConfirm(last, current);
     }
 
@@ -252,26 +246,26 @@ export class Selector extends React.Component {
         this.setState({
             currentSelectedItem: last,
         })
-        console.log('last', last)
         this.props.onCancel && this.props.onCancel(last)
     }
 
     // 渲染移动端的selector
     renderMobileSelector () {
         return (
-            <div className='selector' style={this.props.style ? this.props.style.selector : {} }>
-                <div className='selector-header'>
+            <div className='mobile-selector' style={this.props.style ? this.props.style.selector : {} }>
+                <div className='mobile-selector-header'>
                     <button 
                     className='cancel-btn btn' 
                     onClick={this.onCancel.bind(this)}>取消</button>
                     <Search 
+                    className='mobile-search-input'
                     value={this.state.searchKey}
                     onChange={this.changeSearchKey.bind(this)} />
                     <button 
                     className='verify-btn btn' 
                     onClick={this.onConfirm.bind(this)}>确定</button>
                 </div>
-                <div className='selector-body'>
+                <div className='mobile-selector-body'>
                     <Board 
                     mode='mobile'
                     ref={this.board} 
@@ -287,7 +281,7 @@ export class Selector extends React.Component {
 
     // 点击列表项， 触发onChange函数
     onClickOption (e) {
-        // 这里，应该不能用 e.target.getAttribute 的，想想有没有别的方法 ********************
+        // 这里，应该不能用 e.target.getAttribute 的 T T
         const index = parseInt(e.target.getAttribute('index'));
         const current = this.state.currentData[index];
         const last = this.state.currentSelectedItem;
@@ -302,20 +296,30 @@ export class Selector extends React.Component {
     }
     // 隐藏下拉列表
     hideOptionsBoard () {
+        if (!this.state.isShowOptionsBoard) {
+            return;
+        }
         this.setState({
             isShowOptionsBoard: false,
         })
     }
     // 显示下拉列表
     showOptionsBoard () {
+        if (this.state.isShowOptionsBoard) {
+            return;
+        }
         this.setState({
             isShowOptionsBoard: true
         })
         const index = localStorage.getItem('selectedIndex');
         const searchKey = localStorage.getItem('searchKey');
 
+        // 要等它渲染出来之后才能设置scrollTop，
         setTimeout(() => {
-            this.board.current && (this.board.current.scrollTop = 40 * (index - 2));
+            const scrollTop = (this.state.searchKey === '' || searchKey.toString() === this.state.searchKey.toString()) 
+                ? 40 * (index - 2) : 0;
+
+            this.board.current && (this.board.current.scrollTop = scrollTop);
         }, 0);
     }
     // 点击箭头触发该函数

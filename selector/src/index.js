@@ -67,10 +67,6 @@ class App extends React.Component {
             currentObj: JSON.parse(JSON.stringify(last)),
         })
     }
-    scrollBottom (preTo, newTo) {
-        console.log('scrollBottom')
-        // console.log(preTo, newTo);
-    }
     render () {
         return (
             <div>
@@ -87,15 +83,13 @@ class App extends React.Component {
                     onConfirm={this.handleConfirm.bind(this)}            
                     onCancel={this.handleCancel.bind(this)} // 取消按钮
                     onChange={this.handleChange.bind(this)}
-                    onScrollBottom={this.scrollBottom.bind(this)}
                     lazyLoadData={this.lazyLoadData.bind(this)} />
                     <hr/>
                     <Selector 
                     mode='PC'
-                    listLength={150}
+                    listLength={50}
                     dataSource={this.state.dataSource} 
                     onChange={this.handleChange.bind(this)}
-                    onScrollBottom={this.scrollBottom.bind(this)}
                     lazyLoadData={this.lazyLoadData.bind(this)} />
                 </div>
             </div>

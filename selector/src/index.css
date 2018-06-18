@@ -1,12 +1,12 @@
 .wrapper {
-    width: 250px;
+    width: 300px;
 }
-.selector {
+.mobile-selector {
     position: relative;
     border: 1px solid lightgray;
     border-radius: 10px;
 }
-.selector-header {
+.mobile-selector-header {
     display: flex;
     padding: 10px;
     width: 100%;
@@ -20,7 +20,7 @@
     background-color: white;
     cursor: pointer;
 }
-.search-input {
+.mobile-search-input {
     padding-left: 10px;
     padding-right: 10px;
     width: 60%;
@@ -30,7 +30,7 @@
     outline: none;
     letter-spacing: .5px;
 }
-.selector-body {
+.mobile-selector-body {
     position: relative;
     height: 200px;
     overflow: hidden;
@@ -40,7 +40,9 @@
     width: 100%;
     max-height: 200px;
     overflow: auto;
-    transition: all .5s ease-out;
+}
+.options-wrapper {
+    transition: all .3s ease-out;
 }
 .option {
     box-sizing: border-box;
@@ -64,15 +66,14 @@
 .board-placeholder {
     height: 80px;
 }
-.options-wrapper {
-    transition: all .3s ease-out;
-}
+
 
 
 /* PC端渲染 */
 
 .PC-selector {
     position: relative;
+    width: 250px;
     background-color: white;
 }
 .PC-selector-header {
@@ -80,7 +81,6 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    width: 250px;
     height: 40px;
 }
 .PC-search-input {
