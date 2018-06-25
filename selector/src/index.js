@@ -9,13 +9,13 @@ var dataSource = {
     get: function (key) { // 模拟get请求
         let data = [];
         for (let i = this.count * 50; i < (this.count + 1) * 50; i++) {
-            const o = key ? {value: i, title: `title contains ${key}`} : {value: i, title: i};
+            const o = {value: i, title: i};
             data.push(o);
         }
         this.count ++;
         setTimeout(() => {
-            this.trigger('success', data);
-        }, 100);
+            this.trigger('success', {data: data, isEnd: this.count >= 10 ? true : false});
+        }, 300);
     },
     trigger: function (name, data) {
         this[name] && this[name](data);
@@ -25,11 +25,10 @@ var dataSource = {
     }
 }
 
-
 class App extends React.Component {
     constructor (props) {
         super(props);
-        const data = JSON.parse(localStorage.getItem('currentData')) || [];
+        const data = {data: [], isEnd: false};
         this.state = {
             dataSource: data,
             currentObj: null,
@@ -40,40 +39,42 @@ class App extends React.Component {
         let that = this;
 
         dataSource.success = function (data) {
+            const oldData = that.state.dataSource;
+            const newData = {data: oldData.data.concat(data.data), isEnd: data.isEnd}
             that.setState({
-                dataSource: that.state.dataSource.concat(data),
+                dataSource: newData,
             });
             // console.log(that.state.dataSource)
         }
         dataSource.get();
     }
     lazyLoadData (searchKey) {
-        console.log(searchKey);
         dataSource.get(searchKey);
     }
     handleConfirm (last,current) {
         this.setState({
-            currentObj: JSON.parse(JSON.stringify(current)),
-            lastObj: JSON.parse(JSON.stringify(last)),
+            currentObj: Object.assign({}, current),
+            lastObj: Object.assign({}, last),
         })
     }
     handleChange (current) {
         this.setState({
-            currentObj: JSON.parse(JSON.stringify(current)),
+            currentObj: Object.assign({}, current),
         })
     }
     handleCancel (last) {
         this.setState({
-            currentObj: JSON.parse(JSON.stringify(last)),
+            currentObj: Object.assign({}, last),
         })
     }
     render () {
+        const {currentObj, lastObj} = this.state;
         return (
             <div>
                 <p>
-                    current: {JSON.stringify(this.state.currentObj)}
+                    current: {JSON.stringify(currentObj)}
                     <br/>
-                    last: {JSON.stringify(this.state.lastObj)}
+                    last: {JSON.stringify(lastObj)}
                 </p>
                 <div className='wrapper'>
                     <Selector 
@@ -84,9 +85,12 @@ class App extends React.Component {
                     onCancel={this.handleCancel.bind(this)} // 取消按钮
                     onChange={this.handleChange.bind(this)}
                     lazyLoadData={this.lazyLoadData.bind(this)} />
+
                     <hr/>
+
                     <Selector 
                     mode='PC'
+                    identity='01'
                     listLength={50}
                     dataSource={this.state.dataSource} 
                     onChange={this.handleChange.bind(this)}
