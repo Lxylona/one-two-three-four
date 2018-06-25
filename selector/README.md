@@ -22,7 +22,7 @@
 
 `dataSource`: 数据源，接受一个数组，每一个元素的形式为`{value: value, title: title}`
 
-`identit1`: 用来缓存数据，如果一个页面存在多个selector，identity保证每个selector的缓存不会被覆盖
+`identity`: 用来缓存数据，如果一个页面存在多个selector，identity保证每个selector的缓存不会被覆盖
 
 `listLength`: 一次渲染的列表长度，默认为50，根据搜索关键词过滤列表的时候如果列表长度小于`listLength`，会继续调用`lazyLoadData`来加载更多数据
 
