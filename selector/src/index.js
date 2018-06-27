@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css'
-import {Selector} from './selector';
+import { MobileSelector, PCSelector } from './selector';
 
 // 用来模拟AJAX请求
 var dataSource = {
@@ -24,6 +24,7 @@ var dataSource = {
         console.log(data)
     }
 }
+
 
 class App extends React.Component {
     constructor (props) {
@@ -76,25 +77,26 @@ class App extends React.Component {
                     <br/>
                     last: {JSON.stringify(lastObj)}
                 </p>
-                <div className='wrapper'>
-                    <Selector 
-                    mode='mobile'
-                    dataSource={this.state.dataSource} 
-                    listLength={50} // 一次渲染的列表长度，默认50  
-                    onConfirm={this.handleConfirm.bind(this)}            
-                    onCancel={this.handleCancel.bind(this)} // 取消按钮
-                    onChange={this.handleChange.bind(this)}
-                    lazyLoadData={this.lazyLoadData.bind(this)} />
 
+                
+                <div className='wrapper'>
+                    {/* <MobileSelector 
+                    listLength={50} 
+                    dataSource={this.state.dataSource}
+                    onChange={this.handleChange.bind(this)}
+                    onCancel={this.handleCancel.bind(this)}
+                    onConfirm={this.handleConfirm.bind(this)}
+                    lazyLoadData={this.lazyLoadData.bind(this)}
+                    ></MobileSelector> */}
+                    
                     <hr/>
 
-                    <Selector 
-                    mode='PC'
-                    identity='01'
-                    listLength={50}
-                    dataSource={this.state.dataSource} 
+                    <PCSelector 
+                    listLength={50} 
+                    dataSource={this.state.dataSource}
                     onChange={this.handleChange.bind(this)}
-                    lazyLoadData={this.lazyLoadData.bind(this)} />
+                    lazyLoadData={this.lazyLoadData.bind(this)}
+                    ></PCSelector>             
                 </div>
             </div>
         )

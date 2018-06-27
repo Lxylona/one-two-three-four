@@ -1,3 +1,5 @@
+输出了两个组件分别为：`MobileSelector`, `PCSelector`
+
 ### 移动端事件支持
 
 `onChange(currentObj)`: 滚动停止的时候会触发，传入的参数为被选中的列表项对象`{value:value, title: title}`
@@ -18,8 +20,6 @@
 
 ### 其他参数
 
-`mode`: `mobile` 或者 `PC`，移动端或者PC端渲染。。
-
 `dataSource`: 数据源，接受一个数组，每一个元素的形式为`{value: value, title: title}`
 
 `identity`: 用来缓存数据，如果一个页面存在多个selector，identity保证每个selector的缓存不会被覆盖
@@ -28,4 +28,4 @@
 
 
 
-### [demo](https://jsfiddle.net/n5u2wwjg/49749/)
+### [demo](https://jsfiddle.net/n5u2wwjg/66095/)
