@@ -80,14 +80,14 @@ class App extends React.Component {
 
                 
                 <div className='wrapper'>
-                    {/* <MobileSelector 
+                    <MobileSelector 
                     listLength={50} 
                     dataSource={this.state.dataSource}
                     onChange={this.handleChange.bind(this)}
                     onCancel={this.handleCancel.bind(this)}
                     onConfirm={this.handleConfirm.bind(this)}
                     lazyLoadData={this.lazyLoadData.bind(this)}
-                    ></MobileSelector> */}
+                    ></MobileSelector>
                     
                     <hr/>
 
