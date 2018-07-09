@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>svg</title>
+    <script src="./snap.svg-min.js"></script>
+</head>
+
+<body>
+    <svg 
+    id="svg" 
+    version="1" 
+    xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="800" 
+    height="800"
+    viewBox="0 0 500 500">
+    </svg>
+    <script>
+        var color = 'rgb(100, 127, 230)';
+        var s = new Snap('#svg');
+
+        // 画一个角
+        var littleCircle = s.circle(150, 150, 30).attr({
+            stroke: color,
+            fill: '#fff',
+            strokeWidth: '2'
+        });;
+        var c = s.path('M150, 120 C190 120 220 70 210 40 C220 110 190 120 178 160').attr({
+            stroke: color,
+            strokeWidth: '1.5',
+            fill: 'none'
+        })
+        var point = s.circle(210, 40, 2.5).attr({
+            fill: color
+        })
+        var temp = s.group(littleCircle, c, point);
+
+        // 31个角
+        var deg = 360 / 31;
+        var group = s.group(temp);
+        for (var i = 1; i < 31; i++) {
+            group.add(temp.clone().transform(new Snap.Matrix().rotate(deg * i, 150, 150)));
+        }
+
+        // 最里面那个圆
+        group.add(s.circle(150, 150, 20).attr({
+            fill: color,
+        }))
+
+        // 最大滴圆
+        group.add(s.circle(150, 150, 63).attr({
+            fill: 'none',
+            stroke: color,
+            strokeWidth: 50
+        }))
+
+        // 另外两个黑色圆
+        group.add(s.circle(150, 150, 50).attr({
+            fill: 'none',
+            stroke: '#000000',
+            strokeWidth: 5
+        }))
+        group.add(s.circle(150, 150, 65).attr({
+            fill: 'none',
+            stroke: '#000000',
+            strokeWidth: 15
+        }))
+
+        group.transform(new Snap.matrix().scale(1.5, 1.5))
+
+    </script>
+</body>
+
+</html>
